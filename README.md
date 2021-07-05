@@ -15,7 +15,8 @@
 ## Getting started
 
 ### Prerequisites
----
+-----
+
 [Truffle](https://www.trufflesuite.com/docs/truffle/getting-started/installation)
 
 ### Installing
@@ -25,25 +26,25 @@
 ~$ cd Wallet
 ```
 
-Edit truffle-config.js
+##### Edit truffle-config.js
 
 ```bash
-~$ truffle compile
-~$ truffle migrate --reset 
-~$ truffle console
+~$ truffle compile # для компиляции файлов
+~$ truffle migrate --reset # для деплоя контракта
+~$ truffle console # для входа в консоль 
 ```
 
 ### Example of usage
----
-```nodejs
-truffle(development)> let instance = await Wallet.deployed()
-truffle(development)> instance.getOwner()
+
+```bash
+truffle(development)> let instance = await Wallet.deployed() # получение инстанса контакта
+truffle(development)> instance.getOwner() # получение адресса владельца контракта
 '0x78b59a...'
-truffle(development)> let accounts = await web3.eth.getAccounts()
-> truffle(development)> instance.getBalanceEther().then(function(balance) { 
+truffle(development)> let accounts = await web3.eth.getAccounts() # получения списка аккаунтов, например, для отправки токенов или эфира
+truffle(development)> instance.send(web3.utils.toWei('1', 'ether')) # Отправка 1 эфира в контракт
+> truffle(development)> instance.getBalanceEther().then(function(balance) { # Получение текущего баланса
 >    console.log(web3.utils.fromWei(balance,'ether'));
 > })
-
 ```
 
 

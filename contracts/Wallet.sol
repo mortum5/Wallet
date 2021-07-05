@@ -17,7 +17,7 @@ contract Owner {
         owner = payable(msg.sender); // 'msg.sender' is sender of current call, contract deployer for a constructor
     }
 
-    /** @notice 
+    /** @notice Get owner address
       * @return address of owner
       */
     function getOwner() external view returns (address) {
@@ -54,23 +54,24 @@ contract Token is Owner {
         return totalSupply;
     }
     
-    /** @notice
-      * @return
+    /** @notice get balance token
+      * @return balance token
       */
     function getBalanceToken(address tokenOwner) public view returns (uint256) {
         return balances[tokenOwner];
     }
     
-    /** @notice
-      * @return
+    /** @notice return how many tokens can the intermediary use 
+      * @return how many tokens can the intermediary use 
       */
     function allowance(address tokenOwner, address delegate) public view returns (uint256) {
         return allowed[tokenOwner][delegate];
     }
     
-    /** @notice
-      * @dev
-      * @param to destination
+    /** @notice transfer tokens to another holder
+      * @dev mandatory check of the translation's validity 
+      * @param to destination of transfer
+      * @param tokens quantity of transfer tokens
       */
     function transfer(address to, uint tokens) public {
         require(tokens <= balances[msg.sender], "Now enough tokens for transfer!");
@@ -78,16 +79,19 @@ contract Token is Owner {
         balances[to] = balances[to].add(tokens);
     }
     
-    /** @notice
-      * @return
+    /** @notice allow a third-party dispose of certain amount of tokens
+      * @param delegate  address of delegate
+      * @param tokens  quantity of approved tokens
       */
     function approve(address delegate, uint tokens)  public {
         allowed[msg.sender][delegate] = tokens;
     }
     
-    /** @notice
-      * @dev
-      * @param owner owner
+    /** @notice making transaction
+      * @dev mandatory check of the translation's validity 
+      * @param owner  owner of tokens
+      * @param buyer  buyer of tokens
+      * @param numTokens  quantity of tokens
       */
     function transferFrom(address owner, address buyer, uint numTokens) public {
         require(numTokens <= balances[owner]);
